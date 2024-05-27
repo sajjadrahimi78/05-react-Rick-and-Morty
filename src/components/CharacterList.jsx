@@ -24,11 +24,11 @@ function Character({ item }) {
         <span
           className={`status ${item.status === "Dead" ? "red" : ""}`}
         ></span>
-        <span> {item.status}</span>
+        <span>&nbsp;{item.status}</span>
         <span> - {item.species}</span>
       </div>
       <button className="icon red">
-        <EyeIcon/>
+        <EyeIcon />
       </button>
     </div>
   );
