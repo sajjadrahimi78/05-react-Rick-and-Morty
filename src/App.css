@@ -20,6 +20,12 @@
   font-weight: 700;
 }
 
+.header-logo {
+  width: 4rem;
+  height: 3rem;
+  object-fit: cover;
+}
+
 .navbar__result {
   color: var(--slate-400);
 }
