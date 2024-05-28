@@ -1,10 +1,8 @@
 import { EyeIcon } from "@heroicons/react/24/outline";
-import { allCharacters } from "../../data/data";
-import { useState } from "react";
+// import { useState } from "react";
 
-function CharacterList() {
-  // state
-  const [characters, setCharacters] = useState(allCharacters);
+function CharacterList({characters}) {
+  
   return (
     <div className="characters-list">
       {characters.map((item) => (
