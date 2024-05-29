@@ -5,6 +5,7 @@ import CharacterDetail from "./components/CharacterDetail";
 import CharacterList from "./components/CharacterList";
 import Navbar, { SearchResult } from "./components/Navbar";
 import toast, { Toaster } from "react-hot-toast";
+import axios from "axios";
 
 function App() {
   // state
@@ -43,22 +44,43 @@ function App() {
   // }, []);
 
   // * -------------------------- we can use async await --------------------------
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     try {
+  //       setIsLoading(true);
+  //       const res = await fetch("https://rickandmortyapi.com/api/character");
+
+  //       // error condition
+  //       if (!res.ok) throw new Error("Something went wrong!");
+
+  //       const data = await res.json();
+  //       setCharacters(data.results.slice(0, 5));
+  //       // setIsLoading(false);
+  //     } catch (error) {
+  //       //* for real project :  error.response.data.message
+  //       // setIsLoading(false);
+  //       toast.error(error.message);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   }
+  //   fetchData();
+  // }, []);
+
+  // * ---------------------- we can use async await & axios ----------------------
   useEffect(() => {
     async function fetchData() {
       try {
         setIsLoading(true);
-        const res = await fetch("https://rickandmortyapi.com/api/character");
-
-        // error condition
-        if (!res.ok) throw new Error("Something went wrong!");
-
-        const data = await res.json();
+        const { data } = await axios.get(
+          "https://rickandmortyapi.com/api/character"
+        );
         setCharacters(data.results.slice(0, 5));
         // setIsLoading(false);
       } catch (error) {
         //* for real project :  error.response.data.message
         // setIsLoading(false);
-        toast.error(error.message);
+        toast.error(error.response.data.error);
       } finally {
         setIsLoading(false);
       }
@@ -75,7 +97,7 @@ function App() {
       </Navbar>
 
       <Main characters={characters}>
-        <CharacterList characters={characters} isLoading={isLoading}/>
+        <CharacterList characters={characters} isLoading={isLoading} />
         <CharacterDetail />
       </Main>
     </div>
