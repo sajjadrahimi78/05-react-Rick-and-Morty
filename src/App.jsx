@@ -15,7 +15,7 @@ function App() {
   const [selectedId, setSelectedId] = useState(null)
 
   const handleSelectCharacter = (id) => {
-    setSelectedId(id)
+    setSelectedId(privId => privId === id ? null : id);
   }
 
   // ! Do not fetch data As follows in "render logic"
@@ -116,7 +116,7 @@ function App() {
       </Navbar>
 
       <Main characters={characters}>
-        <CharacterList characters={characters} isLoading={isLoading} onSelectCharacter={handleSelectCharacter}/>
+        <CharacterList characters={characters} isLoading={isLoading} onSelectCharacter={handleSelectCharacter} selectedId={selectedId}/>
         <CharacterDetail selectedId={selectedId}/>
       </Main>
     </div>
