@@ -2,31 +2,42 @@ import { ArrowUpCircleIcon } from "@heroicons/react/24/outline";
 import { character, episodes } from "../../data/data";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Loader from "./Loader";
+import toast from "react-hot-toast";
 
 function CharacterDetail({ selectedId }) {
   // ? how to fetch single character data
   // state
   const [character, setCharacter] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
       // error landling
-      // try {
-      const { data } = await axios.get(
-        `https://rickandmortyapi.com/api/character/${selectedId}`
-      );
-      setCharacter(data);
-      // }
-      // catch (err) {
-      //   // //* for real project :  error.response.data.message
-      //   // setCharacters([]);
-      //   // toast.error(error.response.data.error);
-      // }
+      try {
+        setIsLoading(true);
+        const { data } = await axios.get(
+          `https://rickandmortyapi.com/api/character/${selectedId}`
+        );
+        setCharacter(data);
+      } catch (err) {
+        toast.error(err.response.data.error);
+      } finally {
+        setIsLoading(false);
+      }
     }
     if (selectedId) fetchData();
   }, [selectedId]);
 
-  if (!character) {
+  if (isLoading) {
+    return (
+      <div style={{ flex: 1, color: "var(--slate-300)"}}>
+        <Loader/>
+      </div>
+    );
+  }
+
+  if (!character || !selectedId) {
     return (
       <div style={{ flex: 1, color: "var(--slate-300)" }}>
         Please select a character
