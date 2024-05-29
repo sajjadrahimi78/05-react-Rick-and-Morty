@@ -3,7 +3,7 @@ import { allCharacters } from "../data/data";
 import "./App.css";
 import CharacterDetail from "./components/CharacterDetail";
 import CharacterList from "./components/CharacterList";
-import Navbar, { SearchResult } from "./components/Navbar";
+import Navbar, { Search, SearchResult } from "./components/Navbar";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 
@@ -11,6 +11,7 @@ function App() {
   // state
   const [characters, setCharacters] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [query, setQuery] = useState("");
 
   // ! Do not fetch data As follows in "render logic"
   // fetch("https://rickandmortyapi.com/api/character")
@@ -68,27 +69,28 @@ function App() {
   // }, []);
 
   // * ---------------------- we can use async await & axios ----------------------
-  
+
   useEffect(() => {
     // error landling
     async function fetchData() {
       try {
         setIsLoading(true);
         const { data } = await axios.get(
-          "https://rickandmortyapi.com/api/character"
+          `https://rickandmortyapi.com/api/character/?name=${query}`
         );
         setCharacters(data.results.slice(0, 5));
         // setIsLoading(false);
       } catch (error) {
         //* for real project :  error.response.data.message
         // setIsLoading(false);
+        setCharacters([]);
         toast.error(error.response.data.error);
       } finally {
         setIsLoading(false);
       }
     }
     fetchData();
-  }, []);
+  }, [query]);
 
   // dependency array : role ? => when to run effect function
 
@@ -104,6 +106,7 @@ function App() {
       <Toaster />
       {/* Component composition -> remove additional layers */}
       <Navbar>
+        <Search query={query} setQuery={setQuery} />
         <SearchResult nomOfResult={characters.length} />
       </Navbar>
 

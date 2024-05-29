@@ -5,7 +5,6 @@ function Navbar({ children }) {
   return (
     <div className="navbar">
       <Logo />
-      <Search />
       {children}
       <Favourits />
     </div>
@@ -23,12 +22,12 @@ function Logo() {
   );
 }
 
-function Search() {
+export function Search({ query, setQuery }) {
   return (
     <input
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
       type="text"
-      name=""
-      id=""
       className="text-field"
       placeholder="search..."
     />
