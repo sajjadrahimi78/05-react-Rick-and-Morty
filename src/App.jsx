@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { allCharacters } from "../data/data";
 import "./App.css";
 import CharacterDetail from "./components/CharacterDetail";
 import CharacterList from "./components/CharacterList";
@@ -83,7 +82,7 @@ function App() {
         const { data } = await axios.get(
           `https://rickandmortyapi.com/api/character/?name=${query}`
         );
-        setCharacters(data.results.slice(0, 5));
+        setCharacters(data.results);
         // setIsLoading(false);
       } catch (error) {
         //* for real project :  error.response.data.message
