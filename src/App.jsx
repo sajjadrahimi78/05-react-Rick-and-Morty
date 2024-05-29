@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { allCharacters } from "../data/data";
 import "./App.css";
 import CharacterDetail from "./components/CharacterDetail";
@@ -7,7 +7,32 @@ import Navbar, { SearchResult } from "./components/Navbar";
 
 function App() {
   // state
-  const [characters, setCharacters] = useState(allCharacters);
+  const [characters, setCharacters] = useState([]);
+
+  // ! Do not fetch data As follows in "render logic"
+  // fetch("https://rickandmortyapi.com/api/character")
+  //   .then((res) => res.json())
+  //   .then((data) => setCharacters(data.results));
+  // * we can fetch data with 2 ways
+  // 1. use useEffect -> when data louded use useEffect
+  // 2. event handler function => for example when user click on button use event handler function
+
+  // useEffect
+  // useEffect(() => {
+  //   fetch("https://rickandmortyapi.com/api/character")
+  //     .then((res) => res.json())
+  //     .then((data) => setCharacters(data.results));
+  // },[]);
+
+  // * we can use async await
+  useEffect(() => {
+    async function fetchData() {
+      const res = await fetch("https://rickandmortyapi.com/api/character");
+      const data = await res.json();
+      setCharacters(data.results);
+    }
+    fetchData();
+  }, []);
 
   return (
     <div className="app">
