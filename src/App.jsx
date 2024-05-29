@@ -76,8 +76,8 @@ function App() {
   // * ---------------------- we can use async await & axios ----------------------
 
   useEffect(() => {
-    // error landling
     async function fetchData() {
+      // error landling
       try {
         setIsLoading(true);
         const { data } = await axios.get(
