@@ -8,6 +8,7 @@ import Navbar, { SearchResult } from "./components/Navbar";
 function App() {
   // state
   const [characters, setCharacters] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   // ! Do not fetch data As follows in "render logic"
   // fetch("https://rickandmortyapi.com/api/character")
@@ -27,9 +28,11 @@ function App() {
   // * we can use async await
   useEffect(() => {
     async function fetchData() {
+      setIsLoading(true);
       const res = await fetch("https://rickandmortyapi.com/api/character");
       const data = await res.json();
-      setCharacters(data.results);
+      setCharacters(data.results.slice(0, 5));
+      setIsLoading(false);
     }
     fetchData();
   }, []);
@@ -42,7 +45,7 @@ function App() {
       </Navbar>
 
       <Main characters={characters}>
-        <CharacterList characters={characters} />
+        <CharacterList characters={characters} isLoading={isLoading}/>
         <CharacterDetail />
       </Main>
     </div>
