@@ -55,7 +55,7 @@ function CharacterDetail({ selectedId }) {
   }
 
   return (
-    <div style={{ flex: 1}}>
+    <div style={{ flex: 1 , height:"45rem" , overflow:"auto"}}>
       <div className="character-detail">
         <img
           src={character.image}
