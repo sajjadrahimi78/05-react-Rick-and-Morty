@@ -12,6 +12,11 @@ function App() {
   const [characters, setCharacters] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState(null)
+
+  const handleSelectCharacter = (id) => {
+    setSelectedId(id)
+  }
 
   // ! Do not fetch data As follows in "render logic"
   // fetch("https://rickandmortyapi.com/api/character")
@@ -111,8 +116,8 @@ function App() {
       </Navbar>
 
       <Main characters={characters}>
-        <CharacterList characters={characters} isLoading={isLoading} />
-        <CharacterDetail />
+        <CharacterList characters={characters} isLoading={isLoading} onSelectCharacter={handleSelectCharacter}/>
+        <CharacterDetail selectedId={selectedId}/>
       </Main>
     </div>
   );
