@@ -68,7 +68,9 @@ function App() {
   // }, []);
 
   // * ---------------------- we can use async await & axios ----------------------
+  
   useEffect(() => {
+    // error landling
     async function fetchData() {
       try {
         setIsLoading(true);
@@ -87,6 +89,15 @@ function App() {
     }
     fetchData();
   }, []);
+
+  // dependency array : role ? => when to run effect function
+
+  // 1. useEffect(() => {}) => run on every renders => //!never used
+  // 2. useEffect(() => {} , []) => run on mount mood
+  // 3. useEffect(() => {when use state...} , [use state... , props]) => when dependency array change => run effect function
+  // ? when useEffect run?
+  // state => change => re-render component => browser paint
+  // state => change => run effect function => if we use setState in useEffect => re-render component ...
 
   return (
     <div className="app">
