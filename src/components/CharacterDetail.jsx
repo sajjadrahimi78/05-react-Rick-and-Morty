@@ -1,7 +1,39 @@
 import { ArrowUpCircleIcon } from "@heroicons/react/24/outline";
 import { character, episodes } from "../../data/data";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-function CharacterDetail() {
+function CharacterDetail({ selectedId }) {
+  // ? how to fetch single character data
+  // state
+  const [character, setCharacter] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      // error landling
+      // try {
+      const { data } = await axios.get(
+        `https://rickandmortyapi.com/api/character/${selectedId}`
+      );
+      setCharacter(data);
+      // }
+      // catch (err) {
+      //   // //* for real project :  error.response.data.message
+      //   // setCharacters([]);
+      //   // toast.error(error.response.data.error);
+      // }
+    }
+    if (selectedId) fetchData();
+  }, [selectedId]);
+
+  if (!character) {
+    return (
+      <div style={{ flex: 1, color: "var(--slate-300)" }}>
+        Please select a character
+      </div>
+    );
+  }
+
   return (
     <div style={{ flex: 1 }}>
       <div className="character-detail">
@@ -39,10 +71,11 @@ function CharacterDetail() {
           </button>
         </div>
         <ul>
-          {episodes.map((item , index) => (
+          {episodes.map((item, index) => (
             <li key={item.id}>
               <div>
-                {String(index + 1).padStart(2 , "0")} - {item.episode} : <strong>{item.name}</strong>
+                {String(index + 1).padStart(2, "0")} - {item.episode} :{" "}
+                <strong>{item.name}</strong>
               </div>
               <div className="badge badge--secondary">{item.air_date}</div>
             </li>
