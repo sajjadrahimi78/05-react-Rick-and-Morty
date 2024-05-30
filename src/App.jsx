@@ -83,25 +83,41 @@ function App() {
   // * ---------------------- we can use async await & axios ----------------------
 
   useEffect(() => {
+    // use web api
+    const controller = new AbortController();
+    const signal = controller.signal;
+
     async function fetchData() {
       // error landling
       try {
         setIsLoading(true);
         const { data } = await axios.get(
-          `https://rickandmortyapi.com/api/character/?name=${query}`
+          `https://rickandmortyapi.com/api/character/?name=${query}`,
+          { signal }
         );
         setCharacters(data.results);
         // setIsLoading(false);
       } catch (error) {
-        //* for real project :  error.response.data.message
-        // setIsLoading(false);
-        setCharacters([]);
-        toast.error(error.response.data.error);
+        // condition when use fetch or axios
+        // fetch => error.name === "AbortError"
+        // axios => axios.isCancel()
+        if (!axios.isCancel()) {
+          //* for real project :  error.response.data.message
+          // setIsLoading(false);
+          setCharacters([]);
+          toast.error(error.response.data.error);
+        }
       } finally {
         setIsLoading(false);
       }
     }
     fetchData();
+
+    // cleanup function
+    return () => {
+      // controller
+      controller.abort();
+    };
   }, [query]);
 
   // dependency array : role ? => when to run effect function
