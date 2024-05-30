@@ -113,6 +113,27 @@ function App() {
   // state => change => re-render component => browser paint
   // state => change => run effect function => if we use setState in useEffect => re-render component ...
 
+  // clean up function
+  // ? what
+  // the cleanup function prevents memory leaks and removes some unnecessary and unwanted behaviors. => عملکرد پاکسازی از نشت حافظه جلوگیری می کند و برخی از رفتارهای غیر ضروری و ناخواسته را حذف می کند.
+  // ? how to use
+  // const [count, setCount] = useState(0);
+  // useEffect(() => {
+  //   // side effect
+  //   const interval = setInterval(() => setCount((c) => c + 1), 1000);
+  //   // cleanup function
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // }, [count]);
+  // return <div style={{ color: "#fff" }}>{count}</div>;
+  // ? when run
+  // 1. when component unmount
+  // 2. defor the next re-render (between re-renders)
+  // ? where to use
+  // in effect funtiond => after unmount or while re-rendering
+  // * example -> feath API , timer , eventListener , ...
+
   return (
     <div className="app">
       <Toaster />
