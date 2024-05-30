@@ -145,6 +145,7 @@
   position: sticky;
   left: 0;
   top: 0;
+  z-index: 1;
 }
 
 .character-detail__img {
@@ -225,7 +226,7 @@
   /* cursor: pointer; */
 }
 
-::-webkit-scrollbar{
+::-webkit-scrollbar {
   width: 10px;
 }
 
