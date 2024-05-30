@@ -1,7 +1,8 @@
 import { XCircleIcon } from "@heroicons/react/24/outline";
 
-function Modal({ title, children, onOpen, open }) {
+function Modal({ onOpen, title, open, children }) {
   if (!open) return null;
+
   return (
     <div>
       <div className="backdrop" onClick={() => onOpen(false)}></div>
