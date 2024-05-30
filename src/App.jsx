@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import CharacterDetail from "./components/CharacterDetail";
 import CharacterList from "./components/CharacterList";
-import Navbar, { Search, SearchResult } from "./components/Navbar";
+import Navbar, { Favourits, Search, SearchResult } from "./components/Navbar";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 
@@ -11,11 +11,19 @@ function App() {
   const [characters, setCharacters] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState("");
-  const [selectedId, setSelectedId] = useState(null)
+  const [selectedId, setSelectedId] = useState(null);
+  const [favourite, setFavourite] = useState([]);
+  const isAddedToFavourite = favourite
+    .map((fav) => fav.id)
+    .includes(selectedId);
 
   const handleSelectCharacter = (id) => {
-    setSelectedId(privId => privId === id ? null : id);
-  }
+    setSelectedId((privId) => (privId === id ? null : id));
+  };
+
+  const handleFavourite = (char) => {
+    setFavourite((privFav) => [...privFav, char]);
+  };
 
   // ! Do not fetch data As follows in "render logic"
   // fetch("https://rickandmortyapi.com/api/character")
@@ -112,11 +120,21 @@ function App() {
       <Navbar>
         <Search query={query} setQuery={setQuery} />
         <SearchResult nomOfResult={characters.length} />
+        <Favourits nomOfFavorites={favourite.length} />
       </Navbar>
 
       <Main characters={characters}>
-        <CharacterList characters={characters} isLoading={isLoading} onSelectCharacter={handleSelectCharacter} selectedId={selectedId}/>
-        <CharacterDetail selectedId={selectedId}/>
+        <CharacterList
+          characters={characters}
+          isLoading={isLoading}
+          onSelectCharacter={handleSelectCharacter}
+          selectedId={selectedId}
+        />
+        <CharacterDetail
+          selectedId={selectedId}
+          onAddFavourits={handleFavourite}
+          isAddedToFavourite={isAddedToFavourite}
+        />
       </Main>
     </div>
   );

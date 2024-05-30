@@ -4,7 +4,7 @@ import axios from "axios";
 import Loader from "./Loader";
 import toast from "react-hot-toast";
 
-function CharacterDetail({ selectedId }) {
+function CharacterDetail({ selectedId, onAddFavourits, isAddedToFavourite }) {
   // ? how to fetch single character data
   // state
   const [character, setCharacter] = useState(null);
@@ -55,7 +55,7 @@ function CharacterDetail({ selectedId }) {
   }
 
   return (
-    <div style={{ flex: 1 , height:"45rem" , overflow:"auto"}}>
+    <div style={{ flex: 1, height: "45rem", overflow: "auto" }}>
       <div className="character-detail">
         <img
           src={character.image}
@@ -79,7 +79,16 @@ function CharacterDetail({ selectedId }) {
             <p>{character.location.name}</p>
           </div>
           <div className="actions">
-            <button className="btn btn--primary">Add to Favourit</button>
+            {isAddedToFavourite ? (
+              <p>Already Added To Favourites✅</p>
+            ) : (
+              <button
+                onClick={() => onAddFavourits(character)}
+                className="btn btn--primary"
+              >
+                Add to Favourite
+              </button>
+            )}
           </div>
         </div>
       </div>
