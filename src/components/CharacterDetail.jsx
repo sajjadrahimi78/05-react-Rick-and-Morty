@@ -4,7 +4,7 @@ import axios from "axios";
 import Loader from "./Loader";
 import toast from "react-hot-toast";
 
-function CharacterDetail({ selectedId, onAddFavourits, isAddedToFavourite }) {
+function CharacterDetail({ selectedId, onAddFavourite, isAddedToFavourite }) {
   // ? how to fetch single character data
   // state
   const [character, setCharacter] = useState(null);
@@ -57,9 +57,9 @@ function CharacterDetail({ selectedId, onAddFavourits, isAddedToFavourite }) {
   return (
     <div style={{ flex: 1, height: "45rem", overflow: "auto" }}>
       <CharacterSubInfo
+        onAddFavourite={onAddFavourite}
         character={character}
         isAddedToFavourite={isAddedToFavourite}
-        onAddFavourits={onAddFavourits}
       />
       <EpisodeList episodes={episodes} />
     </div>
@@ -68,7 +68,7 @@ function CharacterDetail({ selectedId, onAddFavourits, isAddedToFavourite }) {
 
 export default CharacterDetail;
 
-function CharacterSubInfo({ character, isAddedToFavourite, onAddFavourits }) {
+function CharacterSubInfo({ character, isAddedToFavourite, onAddFavourite }) {
   return (
     <div className="character-detail">
       <img
@@ -97,7 +97,7 @@ function CharacterSubInfo({ character, isAddedToFavourite, onAddFavourits }) {
             <p>Already Added To Favourites✅</p>
           ) : (
             <button
-              onClick={() => onAddFavourits(character)}
+              onClick={() => onAddFavourite(character)}
               className="btn btn--primary"
             >
               Add to Favourite

@@ -12,8 +12,8 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(null);
-  const [favourite, setFavourite] = useState([]);
-  const isAddedToFavourite = favourite
+  const [favourites, setFavourites] = useState([]);
+  const isAddedToFavourite = favourites
     .map((fav) => fav.id)
     .includes(selectedId);
 
@@ -22,7 +22,11 @@ function App() {
   };
 
   const handleFavourite = (char) => {
-    setFavourite((privFav) => [...privFav, char]);
+    setFavourites((privFav) => [...privFav, char]);
+  };
+
+  const handleDeleteFavourite = (id) => {
+    setFavourites((privFav) => privFav.filter((fev) => fev.id !== id));
   };
 
   // ! Do not fetch data As follows in "render logic"
@@ -157,10 +161,10 @@ function App() {
       <Navbar>
         <Search query={query} setQuery={setQuery} />
         <SearchResult nomOfResult={characters.length} />
-        <Favourits nomOfFavorites={favourite.length} />
+        <Favourits favourites={favourites} onDeleteFavourite={handleDeleteFavourite}/>
       </Navbar>
 
-      <Main characters={characters}>
+      <Main>
         <CharacterList
           characters={characters}
           isLoading={isLoading}
@@ -169,7 +173,7 @@ function App() {
         />
         <CharacterDetail
           selectedId={selectedId}
-          onAddFavourits={handleFavourite}
+          onAddFavourite={handleFavourite}
           isAddedToFavourite={isAddedToFavourite}
         />
       </Main>
