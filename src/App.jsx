@@ -12,7 +12,9 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(null);
-  const [favourites, setFavourites] = useState([]);
+  const [favourites, setFavourites] = useState(
+    () => JSON.parse(localStorage.getItem("FAVOURITES")) || []
+  );
   const isAddedToFavourite = favourites
     .map((fav) => fav.id)
     .includes(selectedId);
@@ -124,6 +126,10 @@ function App() {
     };
   }, [query]);
 
+  useEffect(() => {
+    localStorage.setItem("FAVOURITES", JSON.stringify(favourites));
+  }, [favourites]);
+
   // dependency array : role ? => when to run effect function
 
   // 1. useEffect(() => {}) => run on every renders => //!never used
@@ -161,7 +167,10 @@ function App() {
       <Navbar>
         <Search query={query} setQuery={setQuery} />
         <SearchResult nomOfResult={characters.length} />
-        <Favourits favourites={favourites} onDeleteFavourite={handleDeleteFavourite}/>
+        <Favourits
+          favourites={favourites}
+          onDeleteFavourite={handleDeleteFavourite}
+        />
       </Navbar>
 
       <Main>
