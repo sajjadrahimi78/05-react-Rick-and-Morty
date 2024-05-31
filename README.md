@@ -1,4 +1,4 @@
-# React + Vite
+# Rick and Morty Project
 
 ### An exercise project where I get information from a server
 ### And I will show it in the list of characters
