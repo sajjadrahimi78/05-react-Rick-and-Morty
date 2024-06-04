@@ -1,20 +1,19 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./App.css";
 import CharacterDetail from "./components/CharacterDetail";
 import CharacterList from "./components/CharacterList";
 import Navbar, { Favourits, Search, SearchResult } from "./components/Navbar";
 import { Toaster } from "react-hot-toast";
 import useCharacter from "./hooks/useCharacter";
+import useLocalStorage from "./hooks/useLocalStorage";
 
 function App() {
   // state
-
   const [query, setQuery] = useState("");
   const { isLoading, characters } = useCharacter(query);
   const [selectedId, setSelectedId] = useState(null);
-  const [favourites, setFavourites] = useState(
-    () => JSON.parse(localStorage.getItem("FAVOURITES")) || []
-  );
+  const [favourites, setFavourites] = useLocalStorage("Favourites" , []);
+
   const isAddedToFavourite = favourites
     .map((fav) => fav.id)
     .includes(selectedId);
@@ -87,10 +86,6 @@ function App() {
   // }, []);
 
   // * ---------------------- we can use async await & axios ----------------------
-
-  useEffect(() => {
-    localStorage.setItem("FAVOURITES", JSON.stringify(favourites));
-  }, [favourites]);
 
   // dependency array : role ? => when to run effect function
 
